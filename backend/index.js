@@ -8,7 +8,7 @@ const port = 7777
 
 app.get('/', (req, res) => {
     console.log(req.method, req.path)
-    return res.send('hello world')
+    return res.json({ message: 'hello world' })
 })
 
 app.listen(port, () => {
