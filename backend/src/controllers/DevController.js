@@ -61,7 +61,7 @@ module.exports = {
     }
 
     if (dev) {
-      await Dev.deleteOne({
+      Dev.deleteOne({
         _id: dev._id
       })
 
