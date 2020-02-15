@@ -44,5 +44,47 @@ module.exports = {
     })
 
     return res.json(devModel)
+  },
+
+  async update(req, res) {
+    console.log(req.method, req.path)
+
+    const { github_user, techs, latitude, longitude } = req.body
+
+    const dev = await Dev.findOne({ github_user })
+
+    const listTechs = parseStringAsArray(techs)
+
+    const location = {
+      type: 'Point',
+      coordinates: [longitude, latitude]
+    }
+
+    if (dev) {
+      await Dev.deleteOne({
+        _id: dev._id
+      })
+
+      dev.techs = listTechs
+      dev.location = location
+
+      await dev.save()
+    }
+
+    return res.json(dev)
+  },
+
+  async destroy(req, res) {
+    console.log(req.method, req.path)
+
+    const github_user = req.body.github_user
+
+    const dev = await Dev.findOne({ github_user })
+
+    if (dev) {
+      await Dev.deleteOne({ _id: dev._id })
+    }
+
+    return res.json(dev)
   }
 }
