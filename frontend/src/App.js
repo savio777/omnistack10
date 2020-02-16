@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react'
+
+import api from './services/api'
+
 import './global.css'
 import './App.css'
 import './Sidebar.css'
 import './Main.css'
 
-const App = () => {
+function App() {
 
   useEffect(() => {
+    getUsers()
+
     navigator.geolocation.getCurrentPosition(
       (postition) => {
         setLongitude(postition.coords.longitude)
@@ -21,17 +26,37 @@ const App = () => {
     )
   }, [])
 
+  const [users, setUsers] = useState([])
   const [githubUser, setGithubUser] = useState('')
   const [techs, setTechs] = useState('')
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
-  const [repeticaoTeste, setRepeticaoTeste] = useState([1, 2, 3, 4, 5])
+
+  async function getUsers() {
+    const response = await api.get('/devs')
+
+    setUsers(response.data)
+  }
+
+  async function createUser(e) {
+    e.preventDefault()
+    const body = {
+      github_user: githubUser,
+      techs: techs,
+      latitude: latitude,
+      longitude: longitude
+    }
+
+    const response = await api.post('/devs', body)
+
+    console.log(response.data)
+  }
 
   return (
     <div id="app">
       <aside>
         <strong>Cadastrar</strong>
-        <form>
+        <form onSubmit={(e) => createUser(e)}>
           <div className="input-block">
             <label htmlFor="github_user">Usuário do Github</label>
             <input
@@ -84,19 +109,25 @@ const App = () => {
 
       <main>
         <ul>
-          {(repeticaoTeste) && (repeticaoTeste.map(value => (
+          {(users.length > 0) && (users.map((value) => (
 
             <li className="dev-item">
               <header>
-                <img src="https://avatars1.githubusercontent.com/u/35678887?s=460&v=4" alt="Sávio" />
+                <img src={value.avatar_url} alt={value.name} />
                 <div className="user-info">
-                  <strong>Sávio</strong>
-                  <span>React, Nodejs</span>
+                  <strong>{value.name}</strong>
+                  <span>
+                    {value.techs[0]}
+                    {(value.techs.length > 2) && value.techs.map((tech) => (
+                      <>
+                        {', ' + tech}
+                      </>
+                    ))}
+                  </span>
                 </div>
               </header>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-              <a href="https://github.com/savio777">Acessar perfil</a>
+              <p>{value.bio}</p>
+              <a href={`https://github.com/${value.github_user}`}>Acessar perfil</a>
             </li>
           )))}
 
