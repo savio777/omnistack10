@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
+
 mongoose.set('useCreateIndex', true)
 
 const routes = require('./src/routes')
@@ -13,6 +15,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/omnistack10', {
 
 const port = 7777
 
+app.use(cors())
 app.use(express.json())
 app.use(routes)
 
