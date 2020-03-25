@@ -1,12 +1,18 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const http = require('http')
 
-mongoose.set('useCreateIndex', true)
-
+const { setupWebSocket } = require('./src/websocket')
 const routes = require('./src/routes')
 
 const app = express()
+
+const server = http.Server(app)
+
+setupWebSocket(server)
+
+mongoose.set('useCreateIndex', true)
 
 mongoose.connect('mongodb://127.0.0.1:27017/omnistack10', {
   useNewUrlParser: true,
@@ -24,6 +30,6 @@ app.get('/', (req, res) => {
   return res.json({ message: ':)' })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`logs do localhost:${port}`)
 })
