@@ -4,7 +4,7 @@ import { View, Text } from 'react-native'
 
 function Profile() {
   return (
-    <View><Text>Oi kk</Text></View>
+    <View><Text>tchau</Text></View>
   )
 }
 

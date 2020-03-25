@@ -6,7 +6,7 @@ function Main(props) {
   return (
     <View>
       <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
-        <Text>iae kkk</Text>
+        <Text>oi</Text>
       </TouchableOpacity>
     </View>
   )
