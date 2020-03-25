@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { Text, View, Button } from 'react-native'
+import { Text, View, TouchableOpacity } from 'react-native'
 
-function Main() {
+function Main(props) {
   return (
     <View>
-      <Button onPress={() => navigator.navigate('Profile')}>
+      <TouchableOpacity onPress={() => props.navigation.navigate('Profile')}>
         <Text>iae kkk</Text>
-      </Button>
+      </TouchableOpacity>
     </View>
   )
 }
