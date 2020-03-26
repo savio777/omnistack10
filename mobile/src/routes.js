@@ -16,6 +16,7 @@ const Route = () => {
         headerMode='screen'
         screenOptions={{
           headerTintColor: '#fff',
+          headerBackTitleVisible: null,
           headerStyle: {
             backgroundColor: '#7D40E7'
           }

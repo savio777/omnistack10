@@ -7,7 +7,6 @@ import Geolocation from '@react-native-community/geolocation';
 function Main(props) {
 
   const [currentRegion, setCurrentRegion] = useState(null)
-  //props.navigation.navigate('Profile')
 
   useEffect(() => {
     Geolocation.getCurrentPosition(
@@ -43,7 +42,9 @@ function Main(props) {
               source={{ uri: 'https://avatars3.githubusercontent.com/u/35678887?v=4' }}
               style={styles.avatar}
             />
-            <Callout>
+            <Callout onPress={() => {
+              props.navigation.navigate('Profile', { user: 'savio777' })
+            }}>
               <View style={styles.callout}>
                 <Text style={styles.name}>Sávio</Text>
                 <Text style={styles.bio}>Graduate in analysis and development of systems. Currently i'm working with Web developer and mobile using Laravel, CodeIgniter, React and React-native.
